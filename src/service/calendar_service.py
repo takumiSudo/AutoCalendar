@@ -6,6 +6,20 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from typing import Optional, Dict, Any
+import json
+import logging 
+
+# Configure the logging
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.FileHandler("example.log"),  # Log to a file
+                        logging.StreamHandler()  # Log to console
+                    ])
+
+logger = logging.getLogger(__name__)
+
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 class GoogleCalendarService:
@@ -19,6 +33,7 @@ class GoogleCalendarService:
         self.credentials_file = credentials_file
         self.token_file = token_file
         self.service = self.authenticate()
+        self.run_continuously()
 
     def authenticate(self):
         """
@@ -38,5 +53,33 @@ class GoogleCalendarService:
                 token.write(creds.to_json())
         
         service = build('calendar', 'v3', credentials=creds)
+        logger.info("Session successfully created.")
         return service
 
+    def create_event(self, calendar_id = 'primary', event_body= Optional([str, Any])):
+
+        if not event_body['start'] or not event_body['end']:
+            event_body['start']['dateTime']: datetime.datetime.utcnow().isoformat()
+            start = datetime.datetime.utcnow().isoformat()
+            event_body['end']['dateTime']: start + datetime.timedelta(hours=1)
+
+        # TODO: Make a Human Checker to see if the Schedule is correct, and also an UI 
+        # So that they can change/add details if they want to
+        event_body = self._user_check(event_body)
+
+        try: 
+            event = self.service.events().insert(
+                calendarId = calendar_id, body = event_body
+            ).execute()
+            logger.info("Event Created", event.get('htmlLink'))
+            return event
+        except HttpError as error:
+            logger.info(f"An error occurred while creating event: {error}")
+            return None
+
+        
+    
+    def _user_check(self, event_body = Optional([str, Any])):
+
+        pass
+        

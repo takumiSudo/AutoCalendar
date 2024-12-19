@@ -6,6 +6,10 @@ Automatically add Tasks and Reminders to your Google Calendar
 
 `autoCalendar` is a tool designed to simplify task management by automating the process of adding tasks and reminders to your Google Calendar. Many of us encounter tasks and reminders in various forms on our computers, and manually transferring them to a calendar can feel burdensome. `autoCalendar` leverages intelligent helper agents to detect tasks and reminders and seamlessly integrate them into your Google Calendar.
 
+The overview of the system may look something like this:
+
+![img](./system_diagram.png)
+
 ## Features
 
 - **Automated Task Detection**: Automatically recognize tasks and reminders from various input sources.

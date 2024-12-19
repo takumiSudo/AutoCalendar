@@ -1,6 +1,7 @@
 # google token apis
-*.json
+client_secret.json
+token.json
 
-#
+# 
 
 
