@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from dataclasses import dataclass, field
 
 class DataLoader:
     def __init__(self, summary: str, start_time: str, end_time: str, description: Optional[str] = None, location: Optional[str] = None):
@@ -9,9 +10,22 @@ class DataLoader:
         self.description = description
         self.location = location
 
+# class CalendarEvent(BaseModel):
+#     summary: str 
+#     start_time: str
+#     end_time: str
+#     description: str
+#     location: str
+
+@dataclass
+class EventDateTime:
+    dateTime: str
+    timeZone: str
+
+@dataclass
 class CalendarEvent(BaseModel):
-    summary: str 
-    start_time: str
-    end_time: str
-    description: str
-    location: str
+    summary: str
+    start: EventDateTime
+    end: EventDateTime
+    description: Optional[str] 
+    location: Optional[str]

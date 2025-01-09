@@ -24,7 +24,7 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-class GCalEventMangerAgent(GoogleEventsManager):
+class GCalEventManagerAgent(GoogleEventsManager):
 
     def __init__(self):
         super().__init__()
@@ -74,7 +74,7 @@ class GCalEventMangerAgent(GoogleEventsManager):
                         "content": [
                             {
                                 "type" : "text",
-                                "text" : "Create a Calendar Event according to the photo",
+                                "text" : "Create a Calendar Event according to the photo. TimeZone should be set to 'UTC'",
                             },
                             {
                                 "type" : "image_url",
@@ -92,7 +92,6 @@ class GCalEventMangerAgent(GoogleEventsManager):
             raise
 
     def create_event(self, event: json):
-
         try: 
             event = self.service.events().insert(calendarId='primary', body=event).execute()
             print(f"Event created: {event.get('htmlLink')}")
