@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  auto-calendar:
+    build: .
+    container_name: snapcal
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+      - /Users/tss_02/Desktop/INITIAL/snapcal/image:/app/image
+    command: python main.py
